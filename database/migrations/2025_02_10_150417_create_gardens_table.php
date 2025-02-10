@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gardens', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->foreignUuid('address_id')->index();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
