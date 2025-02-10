@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_addresses', function (Blueprint $table) {
-            // TODO: Decide if I need an id column?
+            $table->id();
             $table->foreignUuid('user_id')->index();
             $table->foreignUuid('address_id')->index();
             $table->timestamps(); 

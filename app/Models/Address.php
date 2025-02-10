@@ -23,9 +23,7 @@ class Address extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'users_addresses')
-            ->withTimestamps()
-            ->withSoftDeletes();
+        return $this->belongsToMany(User::class, 'users_addresses');
     }
 
     public function gardens(): HasMany

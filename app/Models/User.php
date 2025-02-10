@@ -50,15 +50,11 @@ class User extends Authenticatable
 
     public function addresses(): BelongsToMany
     {
-        return $this->belongsToMany(Address::class, 'users_addresses')
-            ->withTimestamps()
-            ->withSoftDeletes();
+        return $this->belongsToMany(Address::class, 'users_addresses');
     }
 
     public function gardens(): BelongsToMany
     {
-        return $this->belongsToMany(Garden::class, 'users_gardens')
-            ->withTimestamps()
-            ->withSoftDeletes();
+        return $this->belongsToMany(Garden::class, 'users_gardens');
     }
 }

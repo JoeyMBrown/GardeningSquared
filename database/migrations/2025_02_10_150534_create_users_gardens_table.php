@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_gardens', function (Blueprint $table) {
-            // TODO: Decide if I need an id column?
+            $table->id();
             $table->foreignUuid('user_id')->index();
             $table->foreignUuid('garden_id')->index();
             $table->timestamps();

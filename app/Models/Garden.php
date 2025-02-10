@@ -26,9 +26,7 @@ class Garden extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'users_gardens')
-            ->withTimestamps()
-            ->withSoftDeletes();
+        return $this->belongsToMany(User::class, 'users_gardens');
     }
 
     public function plants(): HasMany
