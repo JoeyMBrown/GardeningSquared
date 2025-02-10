@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('harvests', function (Blueprint $table) {
+        Schema::create('plant_event_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('plant_id')->index();
-            $table->date('harvest_date');
-            $table->integer('quantity')->nullable();
-            $table->string('unit')->nullable();
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('harvests');
+        Schema::dropIfExists('plant_event_types');
     }
 };
