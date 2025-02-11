@@ -73,5 +73,11 @@ class GardenController extends Controller
         return redirect()->route('gardens.index')
             ->with('success', 'Garden updated successfully.');  
     }
-    
+
+    public function destroy(Garden $garden)
+    {
+        $garden->delete();
+
+        return redirect()->route('gardens.index')->with('success', 'Garden deleted successfully.');
+    }
 } 
