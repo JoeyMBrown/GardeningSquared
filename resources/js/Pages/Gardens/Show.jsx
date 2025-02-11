@@ -79,7 +79,7 @@ export default function Show({ garden }) {
                                             Location
                                         </Typography>
                                         <Typography variant="body1" gutterBottom>
-                                            {garden.address.street}, {garden.address.city}, {garden.address.state} {garden.address.postal_code}
+                                            {garden.address.street_address}, {garden.address.city}, {garden.address.state} {garden.address.postal_code}
                                         </Typography>
                                     </Grid>
                                 )}
