@@ -1,5 +1,7 @@
-import { Head, Link } from '@inertiajs/react';
+import { useState } from 'react';
+import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import DeleteConfirmationModal from '@/Components/DeleteConfirmationModal';
 import {
     Table,
     TableBody,
@@ -10,10 +12,47 @@ import {
     Paper,
     Typography,
     Button,
-    Box
+    Box,
+    IconButton
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Index({ gardens }) {
+    const [deleteModal, setDeleteModal] = useState({
+        isOpen: false,
+        garden: null,
+        confirmText: ''
+    });
+
+    const handleDeleteClick = (garden) => {
+        setDeleteModal({
+            isOpen: true,
+            garden: garden,
+            confirmText: ''
+        });
+    };
+
+    const handleDeleteClose = () => {
+        setDeleteModal({
+            isOpen: false,
+            garden: null,
+            confirmText: ''
+        });
+    };
+
+    const handleConfirmTextChange = (e) => {
+        setDeleteModal(prev => ({
+            ...prev,
+            confirmText: e.target.value
+        }));
+    };
+
+    const handleDeleteConfirm = () => {
+        router.delete(route('gardens.destroy', { garden: deleteModal.garden.id }));
+        handleDeleteClose();
+    };
+
     return (
         <AuthenticatedLayout
             header={
@@ -38,6 +77,7 @@ export default function Index({ gardens }) {
                                     <TableCell>Name</TableCell>
                                     <TableCell>Address</TableCell>
                                     <TableCell>Description</TableCell>
+                                    <TableCell>Actions</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -60,6 +100,29 @@ export default function Index({ gardens }) {
                                         </TableCell>
                                         <TableCell>{garden.address.street_address}</TableCell>
                                         <TableCell>{garden.description}</TableCell>
+                                        <TableCell>
+                                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                                <Link href={route('gardens.edit', { garden: garden.id })} onClick={(e) => e.stopPropagation()}>
+                                                    <IconButton color="primary" aria-label={`Edit ${garden.name}`}>
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                </Link>
+                                                <IconButton 
+                                                    color="error" 
+                                                    aria-label={`Delete ${garden.name}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+
+                                                        // Necessary to prevent the link from being followed.
+                                                        // Stop propagation does not prevent links from being followed.
+                                                        e.preventDefault();
+                                                        handleDeleteClick(garden);
+                                                    }}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Box>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -67,6 +130,16 @@ export default function Index({ gardens }) {
                     </TableContainer>
                 </div>
             </div>
+
+            <DeleteConfirmationModal
+                open={deleteModal.isOpen}
+                onClose={handleDeleteClose}
+                onConfirm={handleDeleteConfirm}
+                itemName={deleteModal.garden?.name}
+                confirmText={deleteModal.confirmText}
+                onConfirmTextChange={handleConfirmTextChange}
+                itemType="Garden"
+            />
         </AuthenticatedLayout>
     );
 }
