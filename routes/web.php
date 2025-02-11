@@ -25,8 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// TODO: Convert to resource route
-Route::get('/gardens/create', [GardenController::class, 'create'])->name('gardens.create');
-Route::post('/gardens', [GardenController::class, 'store'])->name('gardens.store');
+Route::resource('gardens', GardenController::class);
 
 require __DIR__.'/auth.php';
