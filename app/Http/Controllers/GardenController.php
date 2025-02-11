@@ -19,6 +19,7 @@ class GardenController extends Controller
 
     public function store(Request $request)
     {
+        // TODO: this becomes a form request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -36,6 +37,8 @@ class GardenController extends Controller
 
     public function show(Garden $garden)
     {
+        // TODO: Determine if it makes sense to make this a resource.
+        // Already loading address in multiple methods.
         return Inertia::render('Gardens/Show', [
             'garden' => $garden->load('address')
         ]);
@@ -51,7 +54,24 @@ class GardenController extends Controller
     public function edit(Garden $garden)
     {
         return Inertia::render('Gardens/Edit', [
-            'garden' => $garden
+            'garden' => $garden,
+            'addresses' => Auth::user()->addresses
         ]);
     }
+
+    public function update(Request $request, Garden $garden)
+    {
+        // TODO: this becomes a form request
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'address_id' => 'required|exists:addresses,id',
+        ]);
+
+        $garden->update($validated);
+
+        return redirect()->route('gardens.index')
+            ->with('success', 'Garden updated successfully.');  
+    }
+    
 } 
