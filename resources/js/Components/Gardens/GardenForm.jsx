@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import CreateAddressModal from '@/Components/Addresses/CreateAddressModal';
+import { router } from '@inertiajs/react';
 
 const FormContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(3),
@@ -22,7 +23,9 @@ const FormField = styled(Box)(({ theme }) => ({
     marginBottom: theme.spacing(2),
 }));
 
-const SubmitButton = styled(Button)(({ theme }) => ({
+const ButtonContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    gap: theme.spacing(2),
     marginTop: theme.spacing(2),
 }));
 
@@ -39,6 +42,12 @@ export default function GardenForm({
 
     const handleAddressCreated = (newAddress) => {
         setData('address_id', newAddress.id);
+    };
+
+    const handleBack = () => {
+        router.visit(window.history.state?.back ?? '/gardens', {
+            method: 'get'
+        });
     };
 
     return (
@@ -106,19 +115,30 @@ export default function GardenForm({
                     </Typography>
                 </FormField>
 
-                <SubmitButton
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={processing}
-                    fullWidth
-                >
-                    {processing ? (
-                        <CircularProgress size={24} color="inherit" />
-                    ) : (
-                        isEditing ? 'Save Changes' : 'Create Garden'
-                    )}
-                </SubmitButton>
+                <ButtonContainer>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleBack}
+                        fullWidth
+                    >
+                        Back
+                    </Button>
+                    
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        disabled={processing}
+                        fullWidth
+                    >
+                        {processing ? (
+                            <CircularProgress size={24} color="inherit" />
+                        ) : (
+                            isEditing ? 'Save Changes' : 'Create Garden'
+                        )}
+                    </Button>
+                </ButtonContainer>
             </form>
 
             <CreateAddressModal 
