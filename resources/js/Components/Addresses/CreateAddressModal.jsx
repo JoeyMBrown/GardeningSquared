@@ -4,11 +4,17 @@ import {
     Modal, 
     Box, 
     TextField,
-    Typography 
+    Typography,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    Autocomplete
 } from '@mui/material';
+import { states } from '@/Data/unitedStates';
+import { countries } from '@/Data/countries';
 
 export default function CreateAddressModal({ open, onClose, onAddressCreated }) {
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, reset, errors } = useForm({
         street_address: '',
         unit_number: '',
         city: '',
@@ -31,26 +37,10 @@ export default function CreateAddressModal({ open, onClose, onAddressCreated }) 
     };
 
     return (
-        <Modal
-            open={open}
-            onClose={onClose}
-            aria-labelledby="add-address-modal"
-        >
-            <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 400,
-                bgcolor: 'background.paper',
-                boxShadow: 24,
-                p: 4,
-                borderRadius: 2,
-            }}>
-                <Typography variant="h6" component="h2" mb={3}>
-                    Add New Address
-                </Typography>
-                <form onSubmit={handleSubmit}>
+        <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+            <DialogTitle>Add New Address</DialogTitle>
+            <form onSubmit={handleSubmit}>
+                <DialogContent>
                     <TextField
                         required
                         fullWidth
@@ -74,13 +64,22 @@ export default function CreateAddressModal({ open, onClose, onAddressCreated }) 
                         onChange={(e) => setData('city', e.target.value)}
                         margin="normal"
                     />
-                    <TextField
-                        required
-                        fullWidth
-                        label="State/Province/Region"
-                        value={data.state_province_region}
-                        onChange={(e) => setData('state_province_region', e.target.value)}
-                        margin="normal"
+                    <Autocomplete
+                        options={states}
+                        getOptionLabel={(option) => option.name}
+                        value={states.find(state => state.name === data.state_province_region) || null}
+                        onChange={(_, newValue) => {
+                            setData('state_province_region', newValue?.name || '');
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="State/Province/Region"
+                                required
+                                error={!!errors.state_province_region}
+                                helperText={errors.state_province_region}
+                            />
+                        )}
                     />
                     <TextField
                         required
@@ -90,30 +89,41 @@ export default function CreateAddressModal({ open, onClose, onAddressCreated }) 
                         onChange={(e) => setData('postal_code', e.target.value)}
                         margin="normal"
                     />
-                    <TextField
-                        fullWidth
-                        label="Country"
-                        value={data.country}
-                        onChange={(e) => setData('country', e.target.value)}
-                        margin="normal"
+                    <Autocomplete
+                        options={countries}
+                        getOptionLabel={(option) => option.name}
+                        value={countries.find(country => country.name === data.country) || null}
+                        onChange={(_, newValue) => {
+                            setData('country', newValue?.name || '');
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Country"
+                                required
+                                error={!!errors.country}
+                                helperText={errors.country}
+                                margin="normal"
+                            />
+                        )}
                     />
-                    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-                        <Button 
-                            variant="outlined" 
-                            onClick={onClose}
-                        >
-                            Cancel
-                        </Button>
-                        <Button 
-                            variant="contained" 
-                            type="submit"
-                            disabled={processing}
-                        >
-                            Add Address
-                        </Button>
-                    </Box>
-                </form>
-            </Box>
-        </Modal>
+                </DialogContent>
+                <Box sx={{ m: 3, display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                    <Button 
+                        variant="outlined" 
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </Button>
+                    <Button 
+                        variant="contained" 
+                        type="submit"
+                        disabled={processing}
+                    >
+                        Add Address
+                    </Button>
+                </Box>
+            </form>
+        </Dialog>
     );
 } 
