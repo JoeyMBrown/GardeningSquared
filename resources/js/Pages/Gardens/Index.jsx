@@ -57,7 +57,9 @@ export default function Index({ gardens }) {
         <AuthenticatedLayout
             header={
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="h4">My Gardens</Typography>
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                        Gardens
+                    </h2>
                     <Link href={route('gardens.create')}>
                         <Button variant="contained" color="primary">
                             Create New Garden
