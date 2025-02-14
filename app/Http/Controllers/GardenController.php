@@ -37,10 +37,8 @@ class GardenController extends Controller
 
     public function show(Garden $garden)
     {
-        // TODO: Determine if it makes sense to make this a resource.
-        // Already loading address in multiple methods.
         return Inertia::render('Gardens/Show', [
-            'garden' => $garden->load('address')
+            'garden' => $garden->load(['address', 'plants.plantType'])
         ]);
     }
 
