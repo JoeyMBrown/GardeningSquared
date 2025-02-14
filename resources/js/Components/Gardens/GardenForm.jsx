@@ -6,8 +6,10 @@ import {
     Typography,
     Paper,
     Autocomplete,
-    CircularProgress,
+    CircularProgress
 } from '@mui/material';
+import { useState } from 'react';
+import CreateAddressModal from '@/Components/Addresses/CreateAddressModal';
 
 const FormContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(3),
@@ -33,6 +35,12 @@ export default function GardenForm({
     onSubmit, 
     isEditing = false 
 }) {
+    const [openAddressModal, setOpenAddressModal] = useState(false);
+
+    const handleAddressCreated = (newAddress) => {
+        setData('address_id', newAddress.id);
+    };
+
     return (
         <FormContainer elevation={3}>
             <Typography variant="h5" component="h1" gutterBottom>
@@ -69,7 +77,7 @@ export default function GardenForm({
                     <Autocomplete
                         options={addresses}
                         getOptionLabel={(address) => 
-                            `${address.street_address || ''} ${address.city || ''} ${address.postal_code || ''}`
+                            `${address.street_address}${address.unit_number ? ` Unit ${address.unit_number}` : ''}, ${address.city}, ${address.state_province_region} ${address.postal_code}`
                         }
                         value={addresses.find(addr => addr.id === data.address_id) || null}
                         onChange={(_, newValue) => {
@@ -85,6 +93,17 @@ export default function GardenForm({
                             />
                         )}
                     />
+                    <Typography 
+                        variant="body2" 
+                        sx={{ 
+                            color: 'primary.main', 
+                            cursor: 'pointer',
+                            mt: 1
+                        }}
+                        onClick={() => setOpenAddressModal(true)}
+                    >
+                        Add New Address
+                    </Typography>
                 </FormField>
 
                 <SubmitButton
@@ -101,6 +120,12 @@ export default function GardenForm({
                     )}
                 </SubmitButton>
             </form>
+
+            <CreateAddressModal 
+                open={openAddressModal}
+                onClose={() => setOpenAddressModal(false)}
+                onAddressCreated={handleAddressCreated}
+            />
         </FormContainer>
     );
 } 

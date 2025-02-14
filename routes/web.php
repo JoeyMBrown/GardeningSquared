@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GardenController;
+use App\Http\Controllers\AddressController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,5 +27,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('gardens', GardenController::class);
+
+Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 
 require __DIR__.'/auth.php';
