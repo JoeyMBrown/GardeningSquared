@@ -31,6 +31,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
                             </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route('gardens.index')}
+                                    active={route().current('gardens.index')}
+                                >
+                                    Gardens
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
@@ -133,6 +142,12 @@ export default function AuthenticatedLayout({ header, children }) {
                             active={route().current('dashboard')}
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('gardens.index')}
+                            active={route().current('gardens.index')}
+                        >
+                            Gardens
                         </ResponsiveNavLink>
                     </div>
 
