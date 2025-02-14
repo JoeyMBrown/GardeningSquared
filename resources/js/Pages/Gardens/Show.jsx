@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 
 export default function Show({ garden }) {
-    console.log(garden);
     return (
         <AuthenticatedLayout
             header={
