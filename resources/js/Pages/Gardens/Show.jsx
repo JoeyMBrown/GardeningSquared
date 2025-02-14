@@ -7,27 +7,18 @@ import {
     Box,
     Button,
     Grid,
-    Divider
+    Divider,
+    CardActions
 } from '@mui/material';
 
 export default function Show({ garden }) {
     return (
         <AuthenticatedLayout
             header={
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="h4">{garden.name}</Typography>
-                    <Box sx={{ display: 'flex', gap: 2 }}>
-                        <Link href={route('gardens.edit', { id: garden.id })}>
-                            <Button variant="contained" color="primary">
-                                Edit Garden
-                            </Button>
-                        </Link>
-                        <Link href={route('gardens.index')}>
-                            <Button variant="outlined">
-                                Back to Gardens
-                            </Button>
-                        </Link>
-                    </Box>
+                <Box>
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                        {garden.name}
+                    </h2>
                 </Box>
             }
         >
@@ -106,6 +97,21 @@ export default function Show({ garden }) {
                                 )}
                             </Grid>
                         </CardContent>
+
+                        <CardActions sx={{ justifyContent: 'flex-end' }}>
+                            <Box sx={{ display: 'flex', gap: 2 }}>
+                                <Link href={route('gardens.index')}>
+                                    <Button variant="outlined">
+                                        Back to Gardens
+                                    </Button>
+                                </Link>
+                                <Link href={route('gardens.edit', { id: garden.id })}>
+                                    <Button variant="contained" color="primary">
+                                        Edit Garden
+                                    </Button>
+                                </Link>
+                            </Box>
+                        </CardActions>
                     </Card>
                 </div>
             </div>
