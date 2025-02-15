@@ -5,12 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Plant;
 use App\Models\Garden;
 use App\Models\PlantType;
+use App\Services\PlantTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PlantController extends Controller
 {
+    protected $plantTypeService;
+
+    public function __construct(PlantTypeService $plantTypeService)
+    {
+        $this->plantTypeService = $plantTypeService;
+    }
+
     public function create(Request $request)
     {
         $garden = Garden::findOrFail($request->garden);
@@ -23,7 +31,7 @@ class PlantController extends Controller
 
         return Inertia::render('Plants/Create', [
             'garden' => $garden,
-            'plantTypes' => PlantType::orderBy('name')->get()
+            'plantTypes' => $this->plantTypeService->getOrderedPlantTypes($garden)
         ]);
     }
 
