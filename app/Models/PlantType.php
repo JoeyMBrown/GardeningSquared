@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PlantType extends Model
@@ -14,31 +15,46 @@ class PlantType extends Model
     protected $fillable = [
         'name',
         'description',
-        'growth_time_min',
-        'growth_time_max',
-        'indoor_seed_start_date',
-        'outdoor_seed_start_date',
-        'transplant_date',
-        'last_plant_date',
-        'recommended_watering_frequency',
-        'recommended_fertilizing_frequency',
-        'recommended_pest_control_frequency',
+        'plant_spacing',
+        'plant_depth',
+        'sun_needed',
+        'germination_days',
+        'growth_days_min',
+        'growth_days_max',
+        'indoor_seed_start_days',
+        'outdoor_seed_start_days',
+        'transplant_days',
+        'last_plant_days',
+        'watering_frequency',
+        'fertilizing_frequency',
+        'pest_control_frequency',
+        'image_url',
+        'created_by_user_id',
     ];
 
     protected $casts = [
-        'growth_time_min' => 'integer',
-        'growth_time_max' => 'integer',
-        'indoor_seed_start_date' => 'integer',
-        'outdoor_seed_start_date' => 'integer',
-        'transplant_date' => 'integer',
-        'last_plant_date' => 'integer',
-        'recommended_watering_frequency' => 'integer',
-        'recommended_fertilizing_frequency' => 'integer',
-        'recommended_pest_control_frequency' => 'integer',
+        'plant_spacing' => 'integer',
+        'plant_depth' => 'integer',
+        'sun_needed' => 'integer',
+        'germination_days' => 'integer',
+        'growth_days_min' => 'integer',
+        'growth_days_max' => 'integer',
+        'indoor_seed_start_days' => 'integer',
+        'outdoor_seed_start_days' => 'integer',
+        'transplant_days' => 'integer',
+        'last_plant_days' => 'integer',
+        'watering_frequency' => 'integer',
+        'fertilizing_frequency' => 'integer',
+        'pest_control_frequency' => 'integer',
     ];
 
     public function plants(): HasMany
     {
         return $this->hasMany(Plant::class);
+    }
+
+    public function createdByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by_user_id');
     }
 } 

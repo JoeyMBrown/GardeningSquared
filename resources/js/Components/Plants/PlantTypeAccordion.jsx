@@ -67,17 +67,17 @@ export default function PlantTypeAccordion({
             <AccordionDetails>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                     <Typography><strong>Description:</strong> {plantType.description}</Typography>
-                    <Typography><strong>Growth Time:</strong> {plantType.growth_time_min} - {plantType.growth_time_max} days</Typography>
-                    <Typography><strong>Indoor Seed Start:</strong> {plantType.indoor_seed_start_date}</Typography>
-                    <Typography><strong>Outdoor Seed Start:</strong> {plantType.outdoor_seed_start_date}</Typography>
-                    <Typography><strong>Transplant Date:</strong> {plantType.transplant_date}</Typography>
-                    <Typography><strong>Last Plant Date:</strong> {plantType.last_plant_date}</Typography>
-                    <Typography><strong>Watering Frequency:</strong> {plantType.recommended_watering_frequency}</Typography>
-                    <Typography><strong>Fertilizing Frequency:</strong> {plantType.recommended_fertilizing_frequency}</Typography>
-                    <Typography><strong>Pest Control Frequency:</strong> {plantType.recommended_pest_control_frequency}</Typography>
-                    <Typography><strong>Planting Depth:</strong> {plantType.planting_depth} inches</Typography>
-                    <Typography><strong>Spacing:</strong> {plantType.planting_space_x}″ x {plantType.planting_space_y}″</Typography>
-                    <Typography><strong>Sun Needed:</strong> {plantType.sun_needed}</Typography>
+                    <Typography><strong>Growth Time:</strong> {plantType.growth_days_min} - {plantType.growth_days_max} days</Typography>
+                    <Typography><strong>Indoor Seed Start:</strong> {plantType.indoor_seed_start_days} days before last frost</Typography>
+                    <Typography><strong>Outdoor Seed Start:</strong> {plantType.outdoor_seed_start_days} days after last frost</Typography>
+                    <Typography><strong>Transplant Date:</strong> {plantType.transplant_days} days after last frost</Typography>
+                    <Typography><strong>Last Plant Date:</strong> {plantType.last_plant_days} days after last frost</Typography>
+                    <Typography><strong>Watering Frequency:</strong> Every {plantType.watering_frequency} days</Typography>
+                    <Typography><strong>Fertilizing Frequency:</strong> Every {plantType.fertilizing_frequency} days</Typography>
+                    <Typography><strong>Pest Control Frequency:</strong> Every {plantType.pest_control_frequency} days</Typography>
+                    <Typography><strong>Planting Depth:</strong> {plantType.plant_depth} inches</Typography>
+                    <Typography><strong>Plant Spacing:</strong> {plantType.plant_spacing} inches</Typography>
+                    <Typography><strong>Sun Needed:</strong> {plantType.sun_needed} minutes per day</Typography>
                     <Typography><strong>Germination Days:</strong> {plantType.germination_days}</Typography>
                 </Box>
             </AccordionDetails>
