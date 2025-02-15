@@ -14,7 +14,11 @@ export default function PlantTypeAccordion({
     isSelected 
 }) {
     return (
-        <Accordion sx={{ mb: 1 }}>
+        <Accordion sx={{ 
+            mb: 1,
+            borderLeft: plantType.is_in_garden ? '4px solid' : 'none',
+            borderLeftColor: 'primary.main',
+        }}>
             <AccordionSummary 
                 expandIcon={<ExpandMoreIcon />}
                 sx={{
@@ -30,9 +34,23 @@ export default function PlantTypeAccordion({
                     justifyContent: 'space-between', 
                     alignItems: 'center' 
                 }}>
-                    <Typography variant="subtitle1" fontWeight="medium">
-                        {plantType.name} - {plantType.brand}
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        {plantType.is_in_garden && (
+                            <Typography 
+                                variant="caption" 
+                                sx={{ 
+                                    mr: 1, 
+                                    color: 'primary.main',
+                                    fontWeight: 'medium'
+                                }}
+                            >
+                                In Garden
+                            </Typography>
+                        )}
+                        <Typography variant="subtitle1" fontWeight="medium">
+                            {plantType.name} - {plantType.brand}
+                        </Typography>
+                    </Box>
                     <Button
                         variant={isSelected ? "contained" : "outlined"}
                         size="small"
