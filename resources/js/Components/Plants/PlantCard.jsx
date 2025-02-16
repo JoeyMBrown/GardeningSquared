@@ -13,7 +13,6 @@ import {
     BugReport,
     CalendarMonth,
     Agriculture,
-    LocalFlorist,
 } from '@mui/icons-material';
 
 const DataRow = ({ icon, label, value, color = 'primary' }) => (
@@ -59,12 +58,17 @@ export default function PlantCard({ plant }) {
         }}>
             <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    <LocalFlorist 
-                        sx={{ 
-                            mr: 2, 
-                            color: 'primary.main',
-                            fontSize: '2rem'
-                        }} 
+                    <Box
+                        component="img"
+                        src={plant.plant_type?.image_url}
+                        alt={plant.plant_type?.name}
+                        sx={{
+                            width: 40,
+                            height: 40,
+                            mr: 2,
+                            objectFit: 'cover',
+                            borderRadius: '4px'
+                        }}
                     />
                     <Box>
                         <Typography variant="h6" component="div">
