@@ -6,15 +6,15 @@ import {
     Button,
     Typography,
     Paper,
-    Autocomplete,
     CircularProgress,
+    Grid,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { router } from '@inertiajs/react';
 import dayjs from 'dayjs';
-import PlantTypeAccordion from './PlantTypeAccordion';
+import PlantTypeCard from './PlantTypeCard';
 
 const FormContainer = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(3),
@@ -94,6 +94,49 @@ export default function PlantForm({
                     </FormField>
 
                     <FormField>
+                        <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 'medium' }}>
+                            Select Plant Type
+                        </Typography>
+                        
+                        <TextField
+                            fullWidth
+                            label="Search Plant Types"
+                            variant="outlined"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            sx={{ mb: 2 }}
+                            size="small"
+                        />
+                        
+                        <Box sx={{ 
+                            maxHeight: '300px', 
+                            overflowY: 'auto',
+                            mb: 2,
+                            border: '1px solid',
+                            borderColor: 'divider',
+                            borderRadius: 1,
+                            p: 1
+                        }}>
+                            <Grid container spacing={1}>
+                                {filteredPlantTypes.map((plantType) => (
+                                    <Grid item xs={4} sm={4} md={3} lg={3} key={plantType.id}>
+                                        <PlantTypeCard 
+                                            plantType={plantType}
+                                            onSelect={handlePlantTypeSelect}
+                                            isSelected={plantType.id === data.plant_type_id}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                        {errors.plant_type_id && (
+                            <Typography color="error" variant="caption">
+                                {errors.plant_type_id}
+                            </Typography>
+                        )}
+                    </FormField>
+
+                    <FormField>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 label="Seed Start Date"
@@ -157,33 +200,6 @@ export default function PlantForm({
                     </ButtonContainer>
                 </form>
             </FormContainer>
-
-            <Box sx={{ mt: 4 }}>
-                <Typography variant="h6" sx={{ mb: 2 }}>Select Plant Type</Typography>
-                
-                <TextField
-                    fullWidth
-                    label="Search Plant Types"
-                    variant="outlined"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    sx={{ mb: 2 }}
-                />
-                
-                <Box sx={{ 
-                    maxHeight: { xs: '60vh', sm: '70vh' }, 
-                    overflowY: 'auto'
-                }}>
-                    {filteredPlantTypes.map((plantType) => (
-                        <PlantTypeAccordion 
-                            key={plantType.id} 
-                            plantType={plantType}
-                            onSelect={handlePlantTypeSelect}
-                            isSelected={plantType.id === data.plant_type_id}
-                        />
-                    ))}
-                </Box>
-            </Box>
         </Box>
     );
 } 
