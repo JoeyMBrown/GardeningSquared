@@ -29,6 +29,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 2,
                 'fertilizing_frequency' => 14,
                 'pest_control_frequency' => 7,
+                'image_url' => '/images/vegetables/tomato.png',
                 'created_by_user_id' => $systemUser->id, // You'll need to add this use statement
             ],
             [
@@ -47,6 +48,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 1,
                 'fertilizing_frequency' => 14,
                 'pest_control_frequency' => 7,
+                'image_url' => '/images/vegetables/cucumber.png',
                 'created_by_user_id' => $systemUser->id,
             ],
             [
@@ -65,6 +67,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 2,
                 'fertilizing_frequency' => 14,
                 'pest_control_frequency' => 7,
+                'image_url' => '/images/vegetables/bellpepper.png',
                 'created_by_user_id' => $systemUser->id,
             ],
             [
@@ -83,6 +86,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 2,
                 'fertilizing_frequency' => 21,
                 'pest_control_frequency' => 14,
+                'image_url' => '/images/vegetables/lettuce.png',
                 'created_by_user_id' => $systemUser->id,
             ],
             [
@@ -101,6 +105,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 2,
                 'fertilizing_frequency' => 21,
                 'pest_control_frequency' => 14,
+                'image_url' => '/images/vegetables/carrot.png',
                 'created_by_user_id' => $systemUser->id,
             ],
             [
@@ -119,6 +124,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 2,
                 'fertilizing_frequency' => 28,
                 'pest_control_frequency' => 14,
+                'image_url' => '/images/vegetables/basil.png',
                 'created_by_user_id' => $systemUser->id,
             ],
             [
@@ -137,6 +143,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 2,
                 'fertilizing_frequency' => 14,
                 'pest_control_frequency' => 7,
+                'image_url' => '/images/vegetables/zucchini.png',
                 'created_by_user_id' => $systemUser->id,
             ],
             [
@@ -155,6 +162,7 @@ class PlantTypeSeeder extends Seeder
                 'watering_frequency' => 3,
                 'fertilizing_frequency' => 21,
                 'pest_control_frequency' => 14,
+                'image_url' => '/images/vegetables/greenbean.png',
                 'created_by_user_id' => $systemUser->id,
             ],
         ];
