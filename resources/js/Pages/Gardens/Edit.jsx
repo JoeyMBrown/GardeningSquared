@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import GardenForm from '@/Components/Gardens/GardenForm';
+import { Box, Container, Typography } from '@mui/material';
 
 export default function Edit({ garden, addresses }) {
     const { data, setData, patch, processing, errors } = useForm({
@@ -16,17 +17,28 @@ export default function Edit({ garden, addresses }) {
     };
 
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout
+            header={
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant="h6" component="h1">
+                        Edit Garden
+                    </Typography>
+                </Box>
+            }
+        >
             <Head title="Edit Garden" />
-            <GardenForm
-                addresses={addresses}
-                data={data}
-                setData={setData}
-                errors={errors}
-                processing={processing}
-                onSubmit={handleSubmit}
-                isEditing={true}
-            />
+            
+            <Container maxWidth="md" sx={{ py: 4 }}>
+                <GardenForm
+                    addresses={addresses}
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    processing={processing}
+                    onSubmit={handleSubmit}
+                    isEditing={true}
+                />
+            </Container>
         </AuthenticatedLayout>
     );
 }
