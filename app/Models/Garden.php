@@ -29,8 +29,8 @@ class Garden extends Model
         return $this->belongsToMany(User::class, 'users_gardens');
     }
 
-    public function plants(): HasMany
+    public function beds(): HasMany
     {
-        return $this->hasMany(Plant::class);
+        return $this->hasMany(Bed::class);
     }
 } 

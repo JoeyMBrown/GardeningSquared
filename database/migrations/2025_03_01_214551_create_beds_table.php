@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plants', function (Blueprint $table) {
+        Schema::create('beds', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('plant_type_id')->index();
-            $table->foreignUuid('bed_id')->index();
+            $table->foreignUuid('garden_id')->index();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->date('seed_start_date')->nullable();
-            $table->date('transplant_date')->nullable();
+            $table->decimal('length', 7, 2)->comment('Length of the bed in inches');
+            $table->decimal('width', 7, 2)->comment('Width of the bed in inches');
+            $table->decimal('height', 7, 2)->comment('Height of the bed in inches');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plants');
+        Schema::dropIfExists('beds');
     }
 };
