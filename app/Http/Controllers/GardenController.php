@@ -6,6 +6,7 @@ use App\Models\Garden;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class GardenController extends Controller
@@ -74,8 +75,32 @@ class GardenController extends Controller
 
     public function destroy(Garden $garden)
     {
-        $garden->delete();
+        // Ensure user has access to this garden
+        if (!$garden->users->contains(Auth::id())) {
+            abort(403, 'Unauthorized action.');
+        }
 
-        return redirect()->route('gardens.index')->with('success', 'Garden deleted successfully.');
+        // Begin a database transaction
+        DB::beginTransaction();
+        
+        try {
+            // Soft delete all related plants
+            foreach ($garden->plants as $plant) {
+                $plant->delete();
+            }
+            
+            // Soft delete the garden
+            $garden->delete();
+            
+            // Commit the transaction
+            DB::commit();
+            
+            return redirect()->route('gardens.index')->with('success', 'Garden deleted successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction if something goes wrong
+            DB::rollBack();
+            
+            return redirect()->back()->with('error', 'Failed to delete garden. Please try again.');
+        }
     }
 } 

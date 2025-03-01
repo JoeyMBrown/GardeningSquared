@@ -28,10 +28,10 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/plants/create', [PlantController::class, 'create'])->name('plants.create');
     Route::post('/plants', [PlantController::class, 'store'])->name('plants.store');
+    
+    Route::resource('gardens', GardenController::class);
+    
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 });
-
-Route::resource('gardens', GardenController::class);
-
-Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 
 require __DIR__.'/auth.php';

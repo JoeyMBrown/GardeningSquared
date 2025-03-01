@@ -1,10 +1,10 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {
     Box,
     Typography,
     Grid,
-    Button
+    Fab
 } from '@mui/material';
 import GardenDetails from '@/Components/Gardens/GardenDetails';
 import PlantCard from '@/Components/Plants/PlantCard';
@@ -38,13 +38,6 @@ export default function Show({ garden }) {
                             <Typography variant="h5" component="h2">
                                 Plants
                             </Typography>
-                            <Button
-                                variant="contained"
-                                startIcon={<AddIcon />}
-                                href={route('plants.create', { garden: garden.id })}
-                            >
-                                Add Plant
-                            </Button>
                         </Box>
 
                         <Grid container spacing={3}>
@@ -62,6 +55,27 @@ export default function Show({ garden }) {
                             )}
                         </Grid>
                     </Box>
+                    
+                    {/* FAB visible on all screen sizes */}
+                    <Fab 
+                        variant="extended"
+                        sx={{ 
+                            position: 'fixed', 
+                            bottom: { xs: 72, sm: 16 },
+                            right: 16,
+                            color: 'white',
+                            bgcolor: 'primary.main',
+                            '&:hover': {
+                                bgcolor: 'primary.dark',
+                            }
+                        }}
+                        aria-label="add plant"
+                        component={Link}
+                        href={route('plants.create', { garden: garden.id })}
+                    >
+                        <AddIcon sx={{ mr: 1 }} />
+                        Add Plant
+                    </Fab>
                 </div>
             </div>
         </AuthenticatedLayout>
