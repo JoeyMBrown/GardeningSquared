@@ -33,8 +33,6 @@ const DataRow = ({ icon, label, value, color = 'primary' }) => (
 export default function PlantCard({ plant }) {
     const theme = useTheme();
 
-    console.log(plant);
-
     // Calculate earliest harvest date based on plant type and planting date
     // TODO: This should be moved to the backend, perhaps on the plant model
     const calculateHarvestDate = () => {
