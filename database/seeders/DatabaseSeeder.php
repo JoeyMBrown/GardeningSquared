@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SystemUserSeeder::class,
             PlantTypeSeeder::class,
-            AddressSeeder::class
+            AddressSeeder::class,
+            GardenSeeder::class,
+            BedSeeder::class,
+            PlantSeeder::class
         ]);
     }
 }

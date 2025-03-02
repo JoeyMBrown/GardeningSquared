@@ -14,7 +14,7 @@ class Plant extends Model
 
     protected $fillable = [
         'plant_type_id',
-        'garden_id',
+        'bed_id',
         'name',
         'description',
         'seed_start_date',
@@ -31,9 +31,9 @@ class Plant extends Model
         return $this->belongsTo(PlantType::class);
     }
 
-    public function garden(): BelongsTo
+    public function bed(): BelongsTo
     {
-        return $this->belongsTo(Garden::class);
+        return $this->belongsTo(Bed::class);
     }
 
     public function harvests(): HasMany
