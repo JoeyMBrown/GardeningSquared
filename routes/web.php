@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\GardenController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BedController;
+use App\Http\Controllers\GardenController;
 use App\Http\Controllers\PlantController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,10 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::get('/plants/create', [PlantController::class, 'create'])->name('plants.create');
-    Route::post('/plants', [PlantController::class, 'store'])->name('plants.store');
+    
+    Route::resource('plants', PlantController::class);
     
     Route::resource('gardens', GardenController::class);
+    Route::resource('gardens.beds', BedController::class);
     
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 });
