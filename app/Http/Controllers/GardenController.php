@@ -2,15 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrUpdateGardenRequest;
 use App\Models\Garden;
-use App\Models\Address;
-use Illuminate\Http\Request;
+use App\Services\GardenService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class GardenController extends Controller
 {
+    use AuthorizesRequests;
+
+    protected $gardenService;
+
+    public function __construct(GardenService $gardenService)
+    {
+        $this->authorizeResource(Garden::class, 'garden');
+        $this->gardenService = $gardenService;
+    }
+
     public function create()
     {
         return Inertia::render('Gardens/Create', [
@@ -18,28 +29,24 @@ class GardenController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreOrUpdateGardenRequest $request)
     {
-        // TODO: this becomes a form request
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'address_id' => 'required|exists:addresses,id',
-        ]);
+        $data = $request->validated();
 
-        $garden = Garden::create($validated);
+        $garden = Garden::create($data);
 
-        // Attach the current user to the garden
         $garden->users()->attach(Auth::id());
 
-        return redirect()->route('gardens.index')
+        // TODO: Update flash message to use new alert
+        return redirect()
+            ->route('gardens.index')
             ->with('success', 'Garden created successfully.');
     }
 
     public function show(Garden $garden)
     {
         return Inertia::render('Gardens/Show', [
-            'garden' => $garden->load(['address', 'plants.plantType'])
+            'garden' => $garden->load(['address', 'beds.plants.plantType'])
         ]);
     }
 
@@ -58,49 +65,29 @@ class GardenController extends Controller
         ]);
     }
 
-    public function update(Request $request, Garden $garden)
+    public function update(StoreOrUpdateGardenRequest $request, Garden $garden)
     {
-        // TODO: this becomes a form request
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'address_id' => 'required|exists:addresses,id',
-        ]);
+        $data = $request->validated();
 
-        $garden->update($validated);
+        $garden->update($data);
 
-        return redirect()->route('gardens.index')
+        return redirect()
+            ->route('gardens.index')
             ->with('success', 'Garden updated successfully.');  
     }
 
     public function destroy(Garden $garden)
     {
-        // Ensure user has access to this garden
-        if (!$garden->users->contains(Auth::id())) {
-            abort(403, 'Unauthorized action.');
+        try {
+            $this->gardenService->delete($garden);
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Failed to delete garden. Please try again.');
         }
 
-        // Begin a database transaction
-        DB::beginTransaction();
-        
-        try {
-            // Soft delete all related plants
-            foreach ($garden->plants as $plant) {
-                $plant->delete();
-            }
-            
-            // Soft delete the garden
-            $garden->delete();
-            
-            // Commit the transaction
-            DB::commit();
-            
-            return redirect()->route('gardens.index')->with('success', 'Garden deleted successfully.');
-        } catch (\Exception $e) {
-            // Rollback the transaction if something goes wrong
-            DB::rollBack();
-            
-            return redirect()->back()->with('error', 'Failed to delete garden. Please try again.');
-        }
+        return redirect()
+            ->route('gardens.index')
+            ->with('success', 'Garden deleted successfully.');
     }
 } 
