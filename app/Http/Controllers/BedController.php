@@ -6,22 +6,16 @@ use App\Http\Requests\StoreBedRequest;
 use App\Http\Requests\UpdateBedRequest;
 use App\Models\Bed;
 use App\Models\Garden;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Support\SnackBarAlert;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BedController extends Controller
 {
-    public function create(Request $request, Garden $garden)
+    public function create(Garden $garden)
     {
-        // TODO: This whole thing will need reworked.
-        // Once routes are refactored to follow gardens/{garden}/beds/{bed}
-        // we can use the policy to authorize the action.
-
         return Inertia::render('Beds/Create', [
-            'garden' => $garden,
-            'success' => session('success')
+            'garden' => $garden
         ]);
     }
 
@@ -33,13 +27,12 @@ class BedController extends Controller
 
         $bed = Bed::create($data);
 
-        // TODO: Update to use new alert component when built.
         return redirect()
             ->route('gardens.beds.show', [
                 'garden' => $garden->id,
                 'bed' => $bed->id
             ])
-            ->with('success', 'Bed added successfully.');
+            ->with('alert', new SnackBarAlert('Bed created successfully.'));
     }
 
     public function show(Garden $garden, Bed $bed)
@@ -47,8 +40,7 @@ class BedController extends Controller
         Gate::authorize('view', $bed);
 
         return Inertia::render('Beds/Show', [
-            'bed' => $bed->load(['garden', 'plants.plantType']),
-            'success' => session('success')
+            'bed' => $bed->load(['garden', 'plants.plantType'])
         ]);
     }
 
@@ -58,8 +50,7 @@ class BedController extends Controller
 
         return Inertia::render('Beds/Edit', [
             'bed' => $bed,
-            'garden' => $bed->garden,
-            'success' => session('success')
+            'garden' => $garden
         ]);
     }
 
@@ -76,7 +67,7 @@ class BedController extends Controller
                 'garden' => $garden->id,
                 'bed' => $bed->id
             ])
-            ->with('success', 'Bed updated successfully.');
+            ->with('alert', new SnackBarAlert('Bed updated successfully.'));
     }
 
     public function destroy(Garden $garden, Bed $bed)
@@ -89,6 +80,6 @@ class BedController extends Controller
             ->route('gardens.show', [
                 'garden' => $garden->id
             ])
-            ->with('success', 'Bed deleted successfully.');
+            ->with('alert', new SnackBarAlert('Bed deleted successfully.'));
     }
 } 
