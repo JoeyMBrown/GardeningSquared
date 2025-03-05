@@ -2,21 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAddressRequest;
 use App\Models\Address;
-use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreAddressRequest $request)
     {
-        $validated = $request->validate([
-            'street_address' => 'required|string|max:255',
-            'unit_number' => 'nullable|string|max:255',
-            'city' => 'required|string|max:255',
-            'state_province_region' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:255',
-            'country' => 'nullable|string|max:255',
-        ]);
+        $validated = $request->validated();
 
         // Create the address
         $address = Address::create($validated);
