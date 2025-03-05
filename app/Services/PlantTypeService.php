@@ -16,12 +16,12 @@ class PlantTypeService
      */
     public function getOrderedPlantTypes(Garden $garden): Collection
     {
-        // TODO: This does not necessarily get the most recent plant types,
-        // but it does get the plant types that are currently in the garden
-        // Get plant types currently in the garden, ordered by most recent
+
+        $garden->load('beds.plants');
+
         $gardenPlantTypes = PlantType::whereIn('id', 
-            $garden->plants()
-                ->orderBy('created_at', 'desc')
+            $garden->beds->pluck('plants')
+                ->flatten()
                 ->pluck('plant_type_id')
                 ->unique()
         )->get()
