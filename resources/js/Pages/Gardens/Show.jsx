@@ -53,11 +53,6 @@ export default function Show({ garden, ...props }) {
             <Head title={`Garden - ${garden.name}`} />
 
             <Container maxWidth="lg" sx={{ py: 4 }}>
-                {success && (
-                    <Alert severity="success" sx={{ mb: 3 }}>
-                        {success}
-                    </Alert>
-                )}
                 
                 <GardenDetails garden={garden} />
                 

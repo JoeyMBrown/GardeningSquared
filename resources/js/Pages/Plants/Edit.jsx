@@ -41,7 +41,6 @@ export default function Edit({ plant, garden, bed, beds, plantTypes, ...props })
                 processing={processing}
                 onSubmit={handleSubmit}
                 isEditing={true}
-                success={success}
             />
         </AuthenticatedLayout>
     );

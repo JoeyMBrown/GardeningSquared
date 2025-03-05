@@ -34,7 +34,6 @@ export default function BedForm({
     processing,
     onSubmit,
     isEditing = false,
-    success,
     bedId
 }) {
     const handleBack = () => {
@@ -51,12 +50,6 @@ export default function BedForm({
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
-            {success && (
-                <Alert severity="success" sx={{ mb: 3 }}>
-                    {success}
-                </Alert>
-            )}
-            
             <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
                 <Link href={route('gardens.index')}>Gardens</Link>
                 <Link href={route('gardens.show', garden.id)}>{garden.name}</Link>

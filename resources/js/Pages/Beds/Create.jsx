@@ -36,7 +36,6 @@ export default function Create({ garden, ...props }) {
                 processing={processing}
                 onSubmit={handleSubmit}
                 isEditing={false}
-                success={success}
             />
         </AuthenticatedLayout>
     );
