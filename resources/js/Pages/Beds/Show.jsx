@@ -9,7 +9,6 @@ import {
     CardContent,
     Divider,
     Button,
-    Alert,
     Paper,
     Breadcrumbs,
     Dialog,
@@ -30,7 +29,7 @@ import PlantCard from '@/Components/Plants/PlantCard';
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
 
-export default function Show({ bed, ...props }) {
+export default function Show({ bed, garden, ...props }) {
     const [deletingPlant, setDeletingPlant] = useState(null);
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
@@ -59,7 +58,7 @@ export default function Show({ bed, ...props }) {
             router.delete(route(
                 'gardens.beds.plants.destroy',
                 {
-                    garden: bed.garden.id,
+                    garden: garden.id,
                     bed: bed.id,
                     plant: deletingPlant.id
                 }
@@ -86,8 +85,8 @@ export default function Show({ bed, ...props }) {
                     <Link href={route('gardens.index')}>Gardens</Link>
                     <Link href={route(
                         'gardens.show',
-                        bed.garden.id
-                    )}>{bed.garden.name}</Link>
+                        garden.id
+                    )}>{garden.name}</Link>
                     <Typography color="text.primary">{bed.name}</Typography>
                 </Breadcrumbs>
                 
@@ -100,7 +99,13 @@ export default function Show({ bed, ...props }) {
                             <IconButton
                                 color="primary"
                                 component={Link}
-                                href={route('gardens.beds.edit', { garden: bed.garden.id, bed: bed.id })}
+                                href={route(
+                                    'gardens.beds.edit',
+                                    {
+                                        garden: garden.id,
+                                        bed: bed.id
+                                    }
+                                )}
                                 sx={{ mr: 1 }}
                                 aria-label="Edit Bed"
                             >
@@ -111,7 +116,7 @@ export default function Show({ bed, ...props }) {
                                 onClick={() => router.delete(route(
                                     'gardens.beds.destroy',
                                     {
-                                        garden: bed.garden.id,
+                                        garden: garden.id,
                                         bed: bed.id
                                     }
                                 ))}
@@ -139,7 +144,7 @@ export default function Show({ bed, ...props }) {
                         variant="contained" 
                         startIcon={<ArrowBackIcon />}
                         component={Link}
-                        href={route('gardens.show', bed.garden.id)}
+                        href={route('gardens.show', garden.id)}
                         sx={{ mt: 2 }}
                     >
                         Back to Garden
@@ -159,7 +164,7 @@ export default function Show({ bed, ...props }) {
                                 href={route(
                                     'gardens.beds.plants.create',
                                     {
-                                        garden: bed.garden.id,
+                                        garden: garden.id,
                                         bed: bed.id
                                     }
                                 )}

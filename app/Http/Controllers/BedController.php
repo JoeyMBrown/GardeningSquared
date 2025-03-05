@@ -40,7 +40,8 @@ class BedController extends Controller
         Gate::authorize('view', $bed);
 
         return Inertia::render('Beds/Show', [
-            'bed' => $bed->load(['garden', 'plants.plantType'])
+            'bed' => $bed->load(['plants.plantType']),
+            'garden' => $garden
         ]);
     }
 
