@@ -56,7 +56,14 @@ export default function Show({ bed, success }) {
 
     const confirmDelete = () => {
         if (deletingPlant) {
-            router.delete(route('gardens.beds.plants.destroy', { garden: bed.garden.id, bed: bed.id, plant: deletingPlant.id }));
+            router.delete(route(
+                'gardens.beds.plants.destroy',
+                {
+                    garden: bed.garden.id,
+                    bed: bed.id,
+                    plant: deletingPlant.id
+                }
+            ));
         }
         setConfirmDialogOpen(false);
     };
@@ -74,20 +81,12 @@ export default function Show({ bed, success }) {
             <Head title={`Bed - ${bed.name}`} />
 
             <Container maxWidth="lg" sx={{ py: 4 }}>
-                {/* 
-                    TODO: Add alert functionality throughout rest of app,
-                    likely makes sense at the layout level. 
-                */}
-                
-                {success && (
-                    <Alert severity="success" sx={{ mb: 3 }}>
-                        {success}
-                    </Alert>
-                )}
-                
                 <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 3 }}>
                     <Link href={route('gardens.index')}>Gardens</Link>
-                    <Link href={route('gardens.show', bed.garden.id)}>{bed.garden.name}</Link>
+                    <Link href={route(
+                        'gardens.show',
+                        bed.garden.id
+                    )}>{bed.garden.name}</Link>
                     <Typography color="text.primary">{bed.name}</Typography>
                 </Breadcrumbs>
                 
@@ -108,7 +107,13 @@ export default function Show({ bed, success }) {
                             </IconButton>
                             <IconButton
                                 color="error"
-                                onClick={() => router.delete(route('gardens.beds.destroy', { garden: bed.garden.id, bed: bed.id }))}
+                                onClick={() => router.delete(route(
+                                    'gardens.beds.destroy',
+                                    {
+                                        garden: bed.garden.id,
+                                        bed: bed.id
+                                    }
+                                ))}
                                 aria-label="Delete Bed"
                             >
                                 <DeleteIcon />
@@ -150,7 +155,13 @@ export default function Show({ bed, success }) {
                                 variant="contained" 
                                 startIcon={<AddIcon />}
                                 component={Link}
-                                href={route('gardens.beds.plants.create', { garden: bed.garden.id, bed: bed.id })}
+                                href={route(
+                                    'gardens.beds.plants.create',
+                                    {
+                                        garden: bed.garden.id,
+                                        bed: bed.id
+                                    }
+                                )}
                             >
                                 Add Plant
                             </Button>
