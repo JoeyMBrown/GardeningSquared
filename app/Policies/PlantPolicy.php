@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Garden;
 use App\Models\Plant;
 use App\Models\User;
 
@@ -26,9 +27,9 @@ class PlantPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Garden $garden): bool
     {
-        return true;
+        return $garden->users->contains($user->id);
     }
 
     /**
