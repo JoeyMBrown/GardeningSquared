@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Bed;
-use App\Models\Garden;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -22,23 +21,7 @@ class BedPolicy
      */
     public function view(User $user, Bed $bed): Response
     {
-        $garden = Garden::findOrFail($bed->garden_id)
-            ->with('users')
-            ->first();
-
-        $isOwner = false;
-
-        // A garden can have many owners, we need to check if the user is one of them.
-        foreach ($garden->users as $gardenUser) {
-
-            if ($gardenUser->id === $user->id) {
-                $isOwner = true;
-                break;
-            }
-        }
-
-        // Here we can deny as not found to avoid exposing if the resource exists or not.
-        return $isOwner
+        return $bed->garden->users->contains($user->id)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -56,21 +39,7 @@ class BedPolicy
      */
     public function update(User $user, Bed $bed): Response
     {
-        $garden = Garden::findOrFail($bed->garden_id)
-            ->with('users')
-            ->first();
-
-        $isOwner = false;
-
-        foreach ($garden->users as $gardenUser) {
-
-            if ($gardenUser->id === $user->id) {
-                $isOwner = true;
-                break;
-            }
-        }
-
-        return $isOwner
+        return $bed->garden->users->contains($user->id)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
@@ -80,21 +49,7 @@ class BedPolicy
      */
     public function delete(User $user, Bed $bed): Response
     {
-        $garden = Garden::findOrFail($bed->garden_id)
-        ->with('users')
-        ->first();
-
-        $isOwner = false;
-
-        foreach ($garden->users as $gardenUser) {
-
-            if ($gardenUser->id === $user->id) {
-                $isOwner = true;
-                break;
-            }
-        }
-
-        return $isOwner
+        return $bed->garden->users->contains($user->id)
             ? Response::allow()
             : Response::denyAsNotFound();
     }
