@@ -11,11 +11,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import GardenListCard from '@/Components/Gardens/GardenListCard';
 import { useTheme } from '@mui/material/styles';
 
-export default function Index({ gardens }) {
+export default function Index({ gardens, ...props }) {
     const theme = useTheme();
 
     return (
         <AuthenticatedLayout
+            {...props}
             header={
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h6" component="h1">

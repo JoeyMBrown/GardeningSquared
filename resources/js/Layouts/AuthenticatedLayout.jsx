@@ -1,13 +1,15 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import SnackBarAlert from '@/Components/Common/SnackBarAlert';
 import Dropdown from '@/Components/Dropdown';
+import MobileNavigation from '@/Components/Layout/MobileNavigation';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import { useState } from 'react';
-import MobileNavigation from '@/Components/Layout/MobileNavigation';
 
-export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
+export default function AuthenticatedLayout({ header, children, alert, auth }) {
+
+    const user = auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
@@ -197,6 +199,15 @@ export default function AuthenticatedLayout({ header, children }) {
             </main>
             
             <MobileNavigation />
+
+            {alert?.id && (
+                <SnackBarAlert
+                    message={alert.message}
+                    severity={alert.severity}
+                    autoHideDuration={alert.autoHideDuration}
+                    key={alert.id}
+                />
+            )}
         </div>
     );
 }

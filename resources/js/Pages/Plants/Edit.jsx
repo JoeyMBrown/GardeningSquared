@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import PlantForm from '@/Components/Plants/PlantForm';
 
-export default function Edit({ plant, garden, bed, beds, plantTypes, success }) {
+export default function Edit({ plant, garden, bed, beds, plantTypes, ...props }) {
     const { data, setData, put, processing, errors } = useForm({
         name: plant.name || '',
         description: plant.description || '',
@@ -20,6 +20,7 @@ export default function Edit({ plant, garden, bed, beds, plantTypes, success }) 
 
     return (
         <AuthenticatedLayout
+            {...props}
             header={
                 <div className="flex justify-between items-center">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">

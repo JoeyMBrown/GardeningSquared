@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import PlantForm from '@/Components/Plants/PlantForm';
 
-export default function Create({ garden, bed, beds, plantTypes }) {
+export default function Create({ garden, bed, beds, plantTypes, ...props }) {
     
     const { data, setData, post, processing, errors } = useForm({
         name: '',
@@ -20,7 +20,9 @@ export default function Create({ garden, bed, beds, plantTypes }) {
     };
 
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout
+            {...props}
+        >
             <Head title="Add Plant" />
             <PlantForm
                 garden={garden}

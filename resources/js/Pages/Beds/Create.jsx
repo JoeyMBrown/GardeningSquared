@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import BedForm from '@/Components/Beds/BedForm';
 
-export default function Create({ garden, success }) {
+export default function Create({ garden, ...props }) {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         description: '',
@@ -20,6 +20,7 @@ export default function Create({ garden, success }) {
 
     return (
         <AuthenticatedLayout
+            {...props}
             header={
                 <div className="flex justify-between items-center">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Add New Bed</h2>

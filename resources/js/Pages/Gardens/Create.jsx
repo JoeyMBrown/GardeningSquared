@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/react';
 import GardenForm from '@/Components/Gardens/GardenForm';
 import { Box, Container, Typography } from '@mui/material';
 
-export default function Create({ addresses }) {
+export default function Create({ addresses, ...props }) {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         description: '',
@@ -18,6 +18,7 @@ export default function Create({ addresses }) {
 
     return (
         <AuthenticatedLayout
+            {...props}
             header={
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h6" component="h1">

@@ -23,7 +23,7 @@ import { Add as AddIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
 
-export default function Show({ garden, success }) {
+export default function Show({ garden, ...props }) {
     const [deletingBed, setDeletingBed] = useState(null);
     const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
@@ -41,6 +41,7 @@ export default function Show({ garden, success }) {
 
     return (
         <AuthenticatedLayout
+            {...props}
             header={
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h6" component="h1">

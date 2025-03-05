@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import BedForm from '@/Components/Beds/BedForm';
 
-export default function Edit({ bed, garden, success }) {
+export default function Edit({ bed, garden, ...props }) {
     const { data, setData, put, processing, errors } = useForm({
         name: bed.name || '',
         description: bed.description || '',
@@ -19,6 +19,7 @@ export default function Edit({ bed, garden, success }) {
 
     return (
         <AuthenticatedLayout
+            {...props}
             header={
                 <div className="flex justify-between items-center">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Bed: {bed.name}</h2>
