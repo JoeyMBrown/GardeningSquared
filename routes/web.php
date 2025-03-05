@@ -27,11 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    
-    Route::resource('plants', PlantController::class);
-    
     Route::resource('gardens', GardenController::class);
     Route::resource('gardens.beds', BedController::class);
+    Route::resource('gardens.beds.plants', PlantController::class);
     
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 });

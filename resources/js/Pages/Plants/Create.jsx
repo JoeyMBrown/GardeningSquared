@@ -3,19 +3,20 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import PlantForm from '@/Components/Plants/PlantForm';
 
-export default function Create({ garden, plantTypes }) {
+export default function Create({ garden, bed, beds, plantTypes }) {
+    
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         description: '',
         plant_type_id: null,
-        garden_id: garden.id,
+        bed_id: bed ? bed.id : null,
         seed_start_date: null,
         transplant_date: null,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('plants.store'));
+        post(route('gardens.beds.plants.store', { garden: garden.id, bed: bed.id }));
     };
 
     return (
@@ -23,6 +24,8 @@ export default function Create({ garden, plantTypes }) {
             <Head title="Add Plant" />
             <PlantForm
                 garden={garden}
+                bed={bed}
+                beds={beds}
                 plantTypes={plantTypes}
                 data={data}
                 setData={setData}

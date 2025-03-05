@@ -105,7 +105,10 @@ export default function BedCard({ bed, garden, onDelete }) {
                                     size="small" 
                                     color="primary"
                                     component={Link}
-                                    href={route('plants.create', { bed: bed.id })}
+                                    href={route(
+                                            'gardens.beds.plants.create',
+                                            { garden: garden.id, bed: bed.id }
+                                    )}
                                 >
                                     <AddIcon />
                                 </IconButton>

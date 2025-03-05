@@ -56,7 +56,7 @@ export default function Show({ bed, success }) {
 
     const confirmDelete = () => {
         if (deletingPlant) {
-            router.delete(route('plants.destroy', deletingPlant.id));
+            router.delete(route('gardens.beds.plants.destroy', { garden: bed.garden.id, bed: bed.id, plant: deletingPlant.id }));
         }
         setConfirmDialogOpen(false);
     };
@@ -150,7 +150,7 @@ export default function Show({ bed, success }) {
                                 variant="contained" 
                                 startIcon={<AddIcon />}
                                 component={Link}
-                                href={route('plants.create', { bed: bed.id })}
+                                href={route('gardens.beds.plants.create', { garden: bed.garden.id, bed: bed.id })}
                             >
                                 Add Plant
                             </Button>
@@ -162,7 +162,8 @@ export default function Show({ bed, success }) {
                             {bed.plants && bed.plants.length > 0 ? (
                                 bed.plants.map((plant) => (
                                     <Grid item xs={12} sm={6} md={4} key={plant.id}>
-                                        <PlantCard 
+                                        <PlantCard
+                                            bed={bed}
                                             plant={plant} 
                                             onDelete={() => handleDeletePlant(plant)}
                                             showEditButton={true}
