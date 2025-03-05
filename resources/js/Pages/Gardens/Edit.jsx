@@ -30,6 +30,7 @@ export default function Edit({ garden, addresses }) {
             
             <Container maxWidth="md" sx={{ py: 4 }}>
                 <GardenForm
+                    gardenId={garden?.id}
                     addresses={addresses}
                     data={data}
                     setData={setData}

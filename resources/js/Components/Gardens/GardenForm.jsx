@@ -30,7 +30,8 @@ export default function GardenForm({
     errors, 
     processing, 
     onSubmit, 
-    isEditing = false 
+    isEditing = false,
+    gardenId
 }) {
     const [openAddressModal, setOpenAddressModal] = useState(false);
 
@@ -39,9 +40,15 @@ export default function GardenForm({
     };
 
     const handleBack = () => {
-        router.visit(window.history.state?.back ?? '/gardens', {
-            method: 'get'
-        });
+        if (isEditing) {
+            router.visit(route('gardens.show', gardenId), {
+                method: 'get'
+            });
+        } else {
+            router.visit(window.history.state?.back ?? '/gardens', {
+                method: 'get'
+            });
+        }
     };
 
     return (
