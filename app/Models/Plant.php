@@ -40,4 +40,9 @@ class Plant extends Model
     {
         return $this->hasMany(Harvest::class);
     }
+
+    public function plantEvents(): HasMany
+    {
+        return $this->hasMany(PlantEvent::class);
+    }
 } 
