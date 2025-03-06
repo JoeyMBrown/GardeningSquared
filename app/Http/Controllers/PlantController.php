@@ -6,9 +6,12 @@ use App\Http\Requests\StoreOrUpdatePlantRequest;
 use App\Models\Bed;
 use App\Models\Garden;
 use App\Models\Plant;
+use App\Models\PlantEventType;
 use App\Services\PlantTypeService;
+use App\Support\SnackBarAlert;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class PlantController extends Controller
@@ -97,5 +100,32 @@ class PlantController extends Controller
                 $bed
             ])
             ->with('success', 'Plant deleted successfully.');
+    }
+
+    public function show(Garden $garden, Bed $bed, Plant $plant)
+    {
+        Gate::authorize('view', $plant);
+
+        return Inertia::render('Plants/Show', [
+            'plant' => $plant->load(['plantType', 'plantEvents.plantEventType']),
+            'garden' => $garden,
+            'bed' => $bed,
+            'plantEventTypes' => PlantEventType::all(),
+        ]);
+    }
+
+    public function storeEvent(Garden $garden, Bed $bed, Plant $plant)
+    {
+        Gate::authorize('update', $plant);
+
+        // TODO: Move to request class.
+        $validated = request()->validate([
+            'plant_event_type_id' => 'required|exists:plant_event_types,id',
+            'notes' => 'nullable|string|max:1000',
+        ]);
+
+        $plantEvent = $plant->plantEvents()->create($validated);
+
+        return back()->with('alert', new SnackBarAlert("Plant {$plantEvent->plantEventType->name} recorded successfully."));
     }
 } 

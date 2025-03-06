@@ -34,4 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 });
 
+// TODO: Decide middleware group, route nesting, etc.
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('gardens/{garden}/beds/{bed}/plants/{plant}/events', [PlantController::class, 'storeEvent'])
+        ->name('gardens.beds.plants.events.store');
+});
+
 require __DIR__.'/auth.php';

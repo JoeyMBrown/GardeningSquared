@@ -8,6 +8,7 @@ import {
     useTheme,
     IconButton,
     Tooltip,
+    CardActionArea,
 } from '@mui/material';
 import {
     WaterDrop,
@@ -59,101 +60,124 @@ export default function PlantCard({ plant, bed, onDelete, showEditButton = false
                 boxShadow: theme.shadows[4],
             }
         }}>
-            <CardContent>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        {plant.plant_type?.image_url && (
-                            <Box
-                                component="img"
-                                src={plant.plant_type.image_url}
-                                alt={plant.plant_type.name}
-                                sx={{
-                                    width: 40,
-                                    height: 40,
-                                    mr: 2,
-                                    objectFit: 'cover',
-                                    borderRadius: '4px'
-                                }}
-                            />
-                        )}
-                        <Box>
-                            <Typography variant="h6" component="div">
-                                {plant.name}
-                            </Typography>
-                            <Typography variant="subtitle2" color="text.secondary">
-                                {plant.plant_type?.name}
-                            </Typography>
+            <CardActionArea 
+                component={Link}
+                href={route(
+                    'gardens.beds.plants.show',
+                    {
+                        garden: bed.garden.id,
+                        bed: bed.id,
+                        plant: plant.id
+                    }
+                )}
+                sx={{ 
+                    height: '100%', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'stretch',
+                    '& .MuiCardContent-root': {
+                        flexGrow: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }
+                }}
+            >
+                <CardContent>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            {plant.plant_type?.image_url && (
+                                <Box
+                                    component="img"
+                                    src={plant.plant_type.image_url}
+                                    alt={plant.plant_type.name}
+                                    sx={{
+                                        width: 40,
+                                        height: 40,
+                                        mr: 2,
+                                        objectFit: 'cover',
+                                        borderRadius: '4px'
+                                    }}
+                                />
+                            )}
+                            <Box>
+                                <Typography variant="h6" component="div">
+                                    {plant.name}
+                                </Typography>
+                                <Typography variant="subtitle2" color="text.secondary">
+                                    {plant.plant_type?.name}
+                                </Typography>
+                            </Box>
                         </Box>
-                    </Box>
-                    
-                    {showEditButton && (
-                        <Box>
-                            <Tooltip title="Edit Plant">
-                                <IconButton 
-                                    size="small" 
-                                    color="primary"
-                                    component={Link}
-                                    href={route('gardens.beds.plants.edit', { garden: bed.garden.id, bed: bed.id, plant: plant.id })}
-                                >
-                                    <EditIcon />
-                                </IconButton>
-                            </Tooltip>
-                            {onDelete && (
-                                <Tooltip title="Delete Plant">
+                        
+                        {showEditButton && (
+                            <Box onClick={(e) => e.stopPropagation()}>
+                                <Tooltip title="Edit Plant">
                                     <IconButton 
                                         size="small" 
-                                        color="error"
-                                        onClick={() => onDelete(plant)}
+                                        color="primary"
+                                        component={Link}
+                                        href={route('gardens.beds.plants.edit', { garden: bed.garden.id, bed: bed.id, plant: plant.id })}
                                     >
-                                        <DeleteIcon />
+                                        <EditIcon />
                                     </IconButton>
                                 </Tooltip>
-                            )}
-                        </Box>
+                                {onDelete && (
+                                    <Tooltip title="Delete Plant">
+                                        <IconButton 
+                                            size="small" 
+                                            color="error"
+                                            onClick={() => onDelete(plant)}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                            </Box>
+                        )}
+                    </Box>
+
+                    {plant.description && (
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                            {plant.description}
+                        </Typography>
                     )}
-                </Box>
 
-                {plant.description && (
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                        {plant.description}
-                    </Typography>
-                )}
-
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <DataRow 
-                            icon={<CalendarMonth />}
-                            label="Planted"
-                            value={plant.seed_start_date ? new Date(plant.seed_start_date).toLocaleDateString() : 'Not planted'}
-                        />
-                        <DataRow 
-                            icon={<Agriculture />}
-                            label="Est. Harvest"
-                            value={calculateHarvestDate()}
-                        />
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <DataRow 
+                                icon={<CalendarMonth />}
+                                label="Planted"
+                                value={plant.seed_start_date ? new Date(plant.seed_start_date).toLocaleDateString() : 'Not planted'}
+                            />
+                            <DataRow 
+                                icon={<Agriculture />}
+                                label="Est. Harvest"
+                                value={calculateHarvestDate()}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <DataRow 
+                                icon={<WaterDrop />}
+                                label="Water Every"
+                                value={`${plant.plant_type?.watering_frequency || '?'} days`}
+                                color="info"
+                            />
+                            <DataRow 
+                                icon={<Spa />}
+                                label="Fertilize Every"
+                                value={`${plant.plant_type?.fertilizing_frequency || '?'} days`}
+                                color="success"
+                            />
+                            <DataRow 
+                                icon={<BugReport />}
+                                label="Pest Control"
+                                value={`${plant.plant_type?.pest_control_frequency || '?'} days`}
+                                color="warning"
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <DataRow 
-                            icon={<WaterDrop />}
-                            label="Water Every"
-                            value={`${plant.plant_type?.watering_frequency || '?'} days`}
-                            color="info"
-                        />
-                        <DataRow 
-                            icon={<Spa />}
-                            label="Fertilize Every"
-                            value={`${plant.plant_type?.fertilizing_frequency || '?'} days`}
-                            color="success"
-                        />
-                        <DataRow 
-                            icon={<BugReport />}
-                            label="Pest Control"
-                            value={`${plant.plant_type?.pest_control_frequency || '?'} days`}
-                            color="warning"
-                        />
-                    </Grid>
-                </Grid>
-            </CardContent>
+                </CardContent>
+            </CardActionArea>
         </Card>
     );
 } 
