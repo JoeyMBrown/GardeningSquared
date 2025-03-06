@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\SnackBarAlert;
+use App\Support\SnackBarSeverity;
 use App\Http\Requests\StoreOrUpdateGardenRequest;
 use App\Models\Garden;
 use App\Services\GardenService;
@@ -40,7 +42,7 @@ class GardenController extends Controller
         // TODO: Update flash message to use new alert
         return redirect()
             ->route('gardens.index')
-            ->with('success', 'Garden created successfully.');
+            ->with('alert', new SnackBarAlert('Garden created successfully.'));
     }
 
     public function show(Garden $garden)
@@ -73,7 +75,7 @@ class GardenController extends Controller
 
         return redirect()
             ->route('gardens.index')
-            ->with('success', 'Garden updated successfully.');  
+            ->with('alert', new SnackBarAlert('Garden updated successfully.'));
     }
 
     public function destroy(Garden $garden)
@@ -83,11 +85,16 @@ class GardenController extends Controller
         } catch (\Exception $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Failed to delete garden. Please try again.');
+                ->with(
+                    'alert',
+                    new SnackBarAlert(
+                        'Failed to delete garden. Please try again.',
+                        SnackBarSeverity::ERROR
+                    ));
         }
 
         return redirect()
             ->route('gardens.index')
-            ->with('success', 'Garden deleted successfully.');
+            ->with('alert', new SnackBarAlert('Garden deleted successfully.'));
     }
 } 
