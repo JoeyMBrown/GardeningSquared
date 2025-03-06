@@ -39,6 +39,7 @@ export default function PlantListView({
                                 onClick={onToggleView}
                                 color="primary"
                                 size="small"
+                                sx={{ display: { xs: 'none', md: 'inline-flex' } }}
                             >
                                 {viewMode === 'card' ? <TableChartIcon /> : <ViewModuleIcon />}
                             </IconButton>
