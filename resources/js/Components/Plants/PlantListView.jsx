@@ -5,10 +5,10 @@ import {
     Card,
     CardContent,
     Divider,
-    Button,
     Grid,
     IconButton,
     Tooltip,
+    Fab,
 } from '@mui/material';
 import {
     Add as AddIcon,
@@ -45,20 +45,6 @@ export default function PlantListView({
                             </IconButton>
                         </Tooltip>
                     </Box>
-                    <Button 
-                        variant="contained" 
-                        startIcon={<AddIcon />}
-                        component={Link}
-                        href={route(
-                            'gardens.beds.plants.create',
-                            {
-                                garden: garden.id,
-                                bed: bed.id
-                            }
-                        )}
-                    >
-                        Add Plant
-                    </Button>
                 </Box>
                 
                 <Divider sx={{ mb: 3 }} />
@@ -90,6 +76,27 @@ export default function PlantListView({
                         No plants have been added to this bed yet.
                     </Typography>
                 )}
+
+                {/* FAB visible on all screen sizes */}
+                <Fab 
+                    variant="extended"
+                    sx={{ 
+                        position: 'fixed', 
+                        bottom: { xs: 72, sm: 16 },
+                        right: 16,
+                        color: 'white',
+                        bgcolor: 'primary.main',
+                        '&:hover': {
+                            bgcolor: 'primary.dark',
+                        }
+                    }}
+                    aria-label="add plant"
+                    component={Link}
+                    href={route('gardens.beds.plants.create', { garden: garden.id, bed: bed.id })}
+                >
+                    <AddIcon sx={{ mr: 1 }} />
+                    Add Plant
+                </Fab>
             </CardContent>
         </Card>
     );
