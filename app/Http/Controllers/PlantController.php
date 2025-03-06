@@ -106,8 +106,11 @@ class PlantController extends Controller
     {
         Gate::authorize('view', $plant);
 
+        // TODO: This perhaps makes sense to be aresource.
         return Inertia::render('Plants/Show', [
-            'plant' => $plant->load(['plantType', 'plantEvents.plantEventType']),
+            'plant' => $plant->load(['plantType', 'plantEvents' => function ($query) {
+                $query->latest();
+            }, 'plantEvents.plantEventType']),
             'garden' => $garden,
             'bed' => $bed,
             'plantEventTypes' => PlantEventType::all(),
