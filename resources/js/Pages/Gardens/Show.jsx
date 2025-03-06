@@ -63,14 +63,6 @@ export default function Show({ garden, ...props }) {
                                 <Typography variant="h5" component="h2">
                                     Garden Beds
                                 </Typography>
-                                <Button 
-                                    variant="contained" 
-                                    startIcon={<AddIcon />}
-                                    component={Link}
-                                    href={route('gardens.beds.create', { garden: garden.id })}
-                                >
-                                    Add Bed
-                                </Button>
                             </Box>
                             
                             <Divider sx={{ mb: 3 }} />
@@ -96,6 +88,27 @@ export default function Show({ garden, ...props }) {
                         </CardContent>
                     </Card>
                 </Box>
+                
+                {/* FAB visible on all screen sizes */}
+                <Fab 
+                    variant="extended"
+                    sx={{ 
+                        position: 'fixed', 
+                        bottom: { xs: 72, sm: 16 },
+                        right: 16,
+                        color: 'white',
+                        bgcolor: 'primary.main',
+                        '&:hover': {
+                            bgcolor: 'primary.dark',
+                        }
+                    }}
+                    aria-label="add bed"
+                    component={Link}
+                    href={route('gardens.beds.create', { garden: garden.id })}
+                >
+                    <AddIcon sx={{ mr: 1 }} />
+                    Add Bed
+                </Fab>
                 
                 {/* Confirmation Dialog for Bed Deletion */}
                 <Dialog
