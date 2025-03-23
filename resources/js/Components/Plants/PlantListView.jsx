@@ -9,11 +9,13 @@ import {
     IconButton,
     Tooltip,
     Fab,
+    Button,
 } from '@mui/material';
 import {
     Add as AddIcon,
     ViewModule as ViewModuleIcon,
     TableChart as TableChartIcon,
+    WaterDrop as WaterDropIcon,
 } from '@mui/icons-material';
 import PlantCard from '@/Components/Plants/PlantCard';
 import PlantTableView from '@/Components/Plants/PlantTableView';
@@ -24,7 +26,8 @@ export default function PlantListView({
     garden, 
     viewMode, 
     onToggleView, 
-    onDeletePlant 
+    onDeletePlant,
+    onWaterAll
 }) {
     return (
         <Card elevation={3}>
@@ -44,6 +47,23 @@ export default function PlantListView({
                                 {viewMode === 'card' ? <TableChartIcon /> : <ViewModuleIcon />}
                             </IconButton>
                         </Tooltip>
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: 'blue.main',
+                                '&:hover': {
+                                    bgcolor: 'blue.secondary',
+                                },
+                            }}
+                            startIcon={<WaterDropIcon />}
+                            onClick={onWaterAll}
+                            disabled={!plants || plants.length === 0}
+                            size="small"
+                        >
+                            Water All
+                        </Button>
                     </Box>
                 </Box>
                 

@@ -10,13 +10,12 @@ import {
     DialogContent,
     DialogContentText,
     DialogActions,
-    Button,
+    Button
 } from '@mui/material';
 import { useState } from 'react';
 import { router } from '@inertiajs/react';
 import BedDetails from '@/Components/Beds/BedDetails';
 import PlantListView from '@/Components/Plants/PlantListView';
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
 
 export default function Show({ bed, garden, ...props }) {
     const [deletingPlant, setDeletingPlant] = useState(null);
@@ -68,30 +67,6 @@ export default function Show({ bed, garden, ...props }) {
                             <Typography color="text.primary">{bed.name}</Typography>
                         </Breadcrumbs>
                     </div>
-                    <Box sx={{ display: 'flex', gap: 2 }}>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                bgcolor: 'blue.main',
-                                '&:hover': {
-                                    bgcolor: 'blue.secondary',
-                                },
-                            }}
-                            startIcon={<WaterDropIcon />}
-                            onClick={handleWaterAllPlants}
-                            disabled={!bed.plants || bed.plants.length === 0}
-                        >
-                            Water All Plants
-                        </Button>
-                        <Link
-                            href={route('gardens.beds.plants.create', { garden: garden.id, bed: bed.id })}
-                            className="no-underline"
-                        >
-                            <Button variant="contained" color="primary">
-                                Add Plant
-                            </Button>
-                        </Link>
-                    </Box>
                 </Box>
             }
         >
@@ -116,6 +91,7 @@ export default function Show({ bed, garden, ...props }) {
                     viewMode={viewMode}
                     onToggleView={toggleViewMode}
                     onDeletePlant={handleDeletePlant}
+                    onWaterAll={handleWaterAllPlants}
                 />
                 
                 {/* Confirmation Dialog for Plant Deletion */}
