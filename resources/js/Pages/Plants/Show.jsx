@@ -256,7 +256,7 @@ export default function Show({ plant, garden, bed, plantEventTypes, ...props }) 
                                         {event.plant_event_type.name}
                                     </Typography>
                                     <Typography variant="caption" color="text.secondary">
-                                        {new Date(event.created_at).toLocaleDateString()}
+                                        {new Date(event.created_at).toLocaleString()}
                                     </Typography>
                                 </Box>
                                 {event.notes && (
