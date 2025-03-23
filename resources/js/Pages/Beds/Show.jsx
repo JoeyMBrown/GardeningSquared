@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { router } from '@inertiajs/react';
 import BedDetails from '@/Components/Beds/BedDetails';
 import PlantListView from '@/Components/Plants/PlantListView';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
 
 export default function Show({ bed, garden, ...props }) {
     const [deletingPlant, setDeletingPlant] = useState(null);
@@ -45,14 +46,52 @@ export default function Show({ bed, garden, ...props }) {
         setViewMode(viewMode === 'card' ? 'table' : 'card');
     };
 
+    const handleWaterAllPlants = () => {
+        router.post(route('gardens.beds.water-all', {
+            garden: garden.id,
+            bed: bed.id
+        }));
+    };
+
     return (
         <AuthenticatedLayout
             {...props}
             header={
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="h6" component="h1">
-                        {bed.name}
-                    </Typography>
+                    <div>
+                        <Typography variant="h4" component="h1">
+                            {bed.name}
+                        </Typography>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Link href={route('gardens.index')}>Gardens</Link>
+                            <Link href={route('gardens.show', garden.id)}>{garden.name}</Link>
+                            <Typography color="text.primary">{bed.name}</Typography>
+                        </Breadcrumbs>
+                    </div>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: 'blue.main',
+                                '&:hover': {
+                                    bgcolor: 'blue.secondary',
+                                },
+                            }}
+                            startIcon={<WaterDropIcon />}
+                            onClick={handleWaterAllPlants}
+                            disabled={!bed.plants || bed.plants.length === 0}
+                        >
+                            Water All Plants
+                        </Button>
+                        <Link
+                            href={route('gardens.beds.plants.create', { garden: garden.id, bed: bed.id })}
+                            className="no-underline"
+                        >
+                            <Button variant="contained" color="primary">
+                                Add Plant
+                            </Button>
+                        </Link>
+                    </Box>
                 </Box>
             }
         >

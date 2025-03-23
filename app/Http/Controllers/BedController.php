@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBedRequest;
 use App\Http\Requests\UpdateBedRequest;
 use App\Models\Bed;
 use App\Models\Garden;
+use App\Models\PlantEventType;
 use App\Support\SnackBarAlert;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -82,5 +83,19 @@ class BedController extends Controller
                 'garden' => $garden->id
             ])
             ->with('alert', new SnackBarAlert('Bed deleted successfully.'));
+    }
+
+    public function waterAllPlants(Garden $garden, Bed $bed)
+    {
+        $waterEventType = PlantEventType::where('name', 'Watered')->firstOrFail();
+
+        foreach ($bed->plants as $plant) {
+            $plant->plantEvents()->create([
+                'plant_event_type_id' => $waterEventType->id,
+                'notes' => 'Entire bed was watered',
+            ]);
+        }
+
+        return back()->with('alert', new SnackBarAlert('All plants in bed watered successfully.'));
     }
 } 

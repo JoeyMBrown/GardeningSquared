@@ -27,17 +27,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
+    
+    // More specific routes before resource routes
+    Route::post('gardens/{garden}/beds/{bed}/water-all', [BedController::class, 'waterAllPlants'])
+        ->name('gardens.beds.water-all');
+    Route::post('gardens/{garden}/beds/{bed}/plants/{plant}/events', [PlantController::class, 'storeEvent'])
+        ->name('gardens.beds.plants.events.store');
+    
+    // Resource routes last
     Route::resource('gardens', GardenController::class);
     Route::resource('gardens.beds', BedController::class);
     Route::resource('gardens.beds.plants', PlantController::class);
-    
-    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
-});
-
-// TODO: Decide middleware group, route nesting, etc.
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('gardens/{garden}/beds/{bed}/plants/{plant}/events', [PlantController::class, 'storeEvent'])
-        ->name('gardens.beds.plants.events.store');
 });
 
 require __DIR__.'/auth.php';

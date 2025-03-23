@@ -15,7 +15,6 @@ import {
     DialogActions,
 } from '@mui/material';
 import {
-    ArrowBack as ArrowBackIcon,
     WaterDrop as WaterDropIcon,
     Spa as SpaIcon,
     BugReport as BugReportIcon,
@@ -121,9 +120,9 @@ export default function Show({ plant, garden, bed, plantEventTypes, ...props }) 
                                 startIcon={<WaterDropIcon />}
                                 onClick={() => handleEventClick(plantEventTypes.find(t => t.name === 'Watered'))}
                                 sx={{
-                                    bgcolor: '#64B5F6', // Light blue
+                                    bgcolor: 'blue.main',
                                     '&:hover': {
-                                        bgcolor: '#42A5F5',
+                                        bgcolor: 'blue.secondary',
                                     },
                                     height: '48px',
                                     whiteSpace: 'nowrap',
